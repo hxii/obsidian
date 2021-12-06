@@ -2,9 +2,7 @@
 
 namespace Models;
 
-use Obsidian\Application;
-use Obsidian\Core\Database;
-use \Obsidian\Core\Model;
+use Obsidian\Core\Model;
 
 class User extends Model {
 
@@ -26,6 +24,10 @@ class User extends Model {
 
     public function fetchByUsername(string $username) {
         return $this->fetch('SELECT * FROM users where username = ?', $username);
+    }
+
+    public function fetchRandom() {
+        return $this->fetch('SELECT * FROM users ORDER BY rand() LIMIT 1;');
     }
 
     public function save(string $table) {

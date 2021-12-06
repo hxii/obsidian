@@ -8,17 +8,22 @@ use Obsidian\Core\Router;
 
 class Application {
 
-    protected static $database, $router, $logger;
+    protected static $database, $router, $logger, $session;
 
     public function __construct(array $configuration)
     {
         Configuration::read($configuration);
         Logger::enable($configuration['logging']['level'], $configuration['logging']['file']);
         self::$database = new \Obsidian\Core\Database();
+        self::$session = new \Obsidian\Core\Session();
     }
 
     public static function database() {
         return self::$database;
+    }
+
+    public static function session() {
+        return self::$session;
     }
 
     public function execute() {
