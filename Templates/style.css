@@ -1,0 +1,510 @@
+/* ==== VARIABLES ===================================================================================================== */
+:root {
+    /* FONTS */
+    --font-sans: "Public Sans", system, -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", ui-sans-serif, sans-serif;
+    /* --font-serif: Baskerville, Times, Georgia, ui-serif, serif; */
+    --font-serif: 'Playfair Display', Times, ui-serif, serif;
+    --font-mono: ui-monospace, monospace;
+    --font-size-main: 18px;
+    --font-size-mobile: 15px;
+    --font-line-height: 1.6;
+    /* SPACING */
+    --size-main-width: 70ch;
+    /* COLORS */
+    --color-light-gray: #ccc;
+    --color-black: #000;
+    --color-white: #fff;
+    --color-almost-white: #fafafa;
+    --color-text-main: #3d3d3d;
+    --color-text-link: #000;
+    --color-code-text: orangered;
+    --color-code-bg: #fee;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+::selection {
+    background:  var(--color-black);
+    color: var(--color-light-gray);
+}
+
+html {
+    font: var(--font-size-main)/var(--font-line-height) var(--font-sans);
+    color: var(--color-text-main);
+}
+
+body {
+    background: var(--color-white);
+}
+
+main {
+    margin: 4rem 0
+}
+
+main > * {
+    max-width: var(--size-main-width);
+    margin: 0 auto;
+}
+
+/* ELEMENTS */
+
+/* ==== LINKS ===================================================================================================== */
+
+a:after {
+    display: inline-block;
+    content: '\2197';
+    vertical-align: super;
+    font-size: .5rem;
+    text-decoration: none;
+}
+
+a,
+a:visited {
+    color: var(--color-text-link);
+    text-decoration-color: var(--color-light-gray);
+}
+
+a:hover {
+    text-decoration-color: var(--color-black);
+}
+
+a:is([href*='notes.localhost'],[href*='diary.by'],[href^="/"],[href^="#"]):after {
+    content: '';
+}
+
+/* ==== HR ===================================================================================================== */
+
+hr {
+    margin: 2rem 0;
+    border: none
+}
+
+hr:after {
+    display: block;
+    text-align: center;
+    content: '* * *';
+    font: 1.5rem/1.6 var(--font-serif);
+}
+
+/* ==== IMAGES ===================================================================================================== */
+
+img {
+    max-width: 100%;
+}
+
+img#logo {
+    height: 1.2rem;
+}
+
+figure {
+    margin: 1rem 0;
+}
+
+figcaption {
+    text-align: center;
+    font-size: .75rem;
+    color: var(--color-light-gray);
+}
+
+/* ==== PARAGRAPHS ===================================================================================================== */
+
+p {
+    margin: 0;
+}
+
+p + * {
+    margin-top: 2rem;
+}
+
+/* ==== HEADERS ===================================================================================================== */
+
+:is(h1, h2, h3, h4, h5, h6):not([class]) {
+    font-family: var(--font-serif);
+    font-weight: normal;
+}
+
+/* ==== CODE ===================================================================================================== */
+
+code, pre {
+    font: .9rem/1.6 var(--font-mono);
+    background: var(--color-code-bg);
+    color: var(--color-code-text);
+}
+
+:not(pre) > code {
+    padding: .15rem;
+}
+
+pre {
+    padding: .5rem;
+    border-radius: .25rem;
+    overflow: scroll;
+}
+
+blockquote {
+    border-left: 2px solid;
+    padding: .5rem 1rem;
+    margin: 2rem 0;
+}
+
+/* ==== LISTS ===================================================================================================== */
+
+ul#entries {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul#entries li {
+    display: flex;
+    justify-content: space-between;
+}
+
+ul#entries li a span, article h1:first-of-type span {
+    display: inline-block;
+    padding: 0 .1rem;
+    margin-left: .5rem;
+    border: 2px solid;
+    border-radius: .4rem;
+    font-family: var(--font-sans);
+    font-size: .8rem;
+    font-weight: bold;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--color-light-gray);
+}
+
+/* ==== FORMS ===================================================================================================== */
+
+label {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+input + span, textarea + span {
+    display: block;
+    margin-bottom: 2rem;
+    font-size: .75rem;
+    color: graytext;
+}
+
+input + input {
+    margin-top: 2rem
+}
+
+input, button {
+    font-size: inherit;
+}
+
+form input:not([type=checkbox]) {
+    display: block;
+    width: 75%;
+    padding: .25rem;
+    background: var(--color-almost-white);
+    color: inherit;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px dotted var(--color-light-gray);
+    outline: none;
+}
+
+form input:required {
+    border-bottom: 2px solid var(--color-light-gray)
+}
+
+form input:focus {
+    border-color: var(--color-black);
+}
+
+form input#title {
+    border: none;
+    outline: none;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+    background: var(--color-almost-white);
+    color: inherit;
+}
+
+fieldset {
+    border: 2px solid var(--color-light-gray);
+    margin-bottom: 1rem;
+}
+
+button, select, section#actions a {
+    padding: .25rem .5rem;
+    margin: 1rem 0;
+    border: 2px solid;
+    outline: none;
+    background: var(--color-white);
+    color: var(--color-black);
+    opacity: .4;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    text-decoration: none;
+}
+
+:is(button, select, section#actions a):hover {
+    opacity: 1;
+}
+
+/* ==== EDITOR ===================================================================================================== */
+
+.EasyMDEContainer .CodeMirror {
+    border: none !important;
+    padding: 0 !important;
+}
+
+.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {
+    background: none !important;
+    text-decoration: underline red;
+}
+
+.editor-toolbar {
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 1rem;
+}
+
+/* ==== DETAILS ===================================================================================================== */
+
+details {
+    padding: .5rem 1rem;
+    border: 1px solid var(--color-light-gray);
+}
+
+details > summary {
+    list-style-type: none;
+}
+
+details > summary:before {
+    content: '+';
+    display: inline-block;
+    width: 1rem;
+}
+
+details[open] > summary:before {
+    content: '-';
+}
+
+/* ==== TABLE ===================================================================================================== */
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+}
+
+thead {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+}
+
+td, th {
+    padding: .5rem .25rem;
+}
+
+th {
+    border-bottom: 1px solid;
+}
+
+td {
+    border-bottom: 1px solid var(--color-light-gray);
+}
+
+/* SPECIFICS */
+.container {
+    margin: 4rem 0
+}
+
+header, footer nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 4rem
+}
+
+h1.title {
+    display: inline;
+    font-size: inherit;
+    margin: 0
+}
+
+article h1:first-of-type {
+    margin: 4rem 0;
+    font-size: 3rem;
+    line-height: 1.1;
+}
+
+input#title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+section#diary-header:not(:empty) {
+    margin-bottom: 4rem;
+}
+
+article aside, .note {
+    background: var(--color-almost-white);
+    border: 1px dotted var(--color-light-gray);
+    padding: 1rem;
+    margin: 4rem 0;
+}
+
+footer {
+    margin-top: 4rem
+}
+
+nav ul, footer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li, footer ul li {
+    display: inline-block;
+}
+
+:is(nav ul li, footer ul li):not(:last-child) {
+    margin-right: .5rem
+}
+
+ul#tags {
+    font-size: .8rem;
+}
+
+#info {
+    color: var(--color-light-gray);
+    font-size: .8rem;
+    margin: -4rem 0 4rem
+}
+
+
+section#actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: .5rem;
+}
+
+/* ==== NOTIFICATIONS ===================================================================================================== */
+
+.notification {
+    border-radius: .5rem;
+    padding: .5rem;
+    margin: .5rem auto;
+    background: var(--color-black);
+    color: var(--color-light-gray);
+}
+
+.notification a {
+    color: var(--color-white);
+}
+
+/* ==== HELPERS ===================================================================================================== */
+
+.red {
+    color: red !important;
+}
+
+.block {
+    display: block
+}
+
+.inline {
+    display: inline-block;
+}
+
+.big {
+    max-width: 100vw;
+    margin: 2rem -100% 2rem 50%;
+    transform: translateX(-50%);
+}
+
+.stretch {
+    width: 100vw;
+}
+
+.background {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: -1;
+    mask-image: linear-gradient(180deg, rgba(255,255,255,1) 75%, rgba(255,255,255,0) 100%);
+   -webkit-mask-image: linear-gradient(180deg, rgba(255,255,255,1) 75%, rgba(255,255,255,0) 100%);
+}
+
+.half {
+    max-width: 49%
+}
+
+.third {
+    max-width: 33%
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.right {
+    float: right
+}
+
+.left {
+    float: left
+}
+
+/* ==== MOBILE ===================================================================================================== */
+
+@media screen and (max-width: 650px) {
+    html {
+        font: var(--font-size-mobile)/var(--font-line-height) var(--font-sans);
+    }
+    form input:not([type=checkbox]) {
+        width: 100%;
+    }
+    main {
+        margin: .5rem;
+    }
+    header, footer nav {
+        flex-direction: column;
+    }
+    ul#entries li {
+        flex-direction: column;
+    }
+    ul#entries li:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+}
+
+/* ==== DARK MODE ===================================================================================================== */
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        --color-light-gray: #444;
+        --color-black: #fefefe;
+        --color-white: #111;
+        --color-almost-white: #222;
+        --color-text-main: #eee;
+        --color-text-link: #fff;
+        --color-code-text: orangered;
+        --color-code-bg: #000;
+    }
+
+    img#logo {
+        filter: invert(1);
+    }
+}

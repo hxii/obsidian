@@ -1,0 +1,25 @@
+<body>
+    <style>
+        body {
+            font: 17px/1.6 sans-serif;
+        }
+        .logo {
+            max-height: 64px;
+        }
+    </style>
+    <div class="header">
+        {{ BRAND_LOGO_ABS }}
+    </div>
+    <p>
+        <h1>Hey {{ $handle }} 👋</h1>
+        Either you or someone else has requested to reset your {{ BRAND_TEXT }} password. If this was not you, please ignore this email.
+    </p>
+    <p>
+        You can reset your {{ BRAND_TEXT }} password by clicking <a href="{{ BRAND_URL }}/forgot-password/{{ $handle }}/{{ $token }}">this link</a> or by copy and pasting the following link into your browser:
+    </p>
+    <pre>
+        <code>
+            {{ BRAND_URL }}/forgot-password/{{ $handle }}/{{ $token }}
+        </code>
+    </pre>
+</body>

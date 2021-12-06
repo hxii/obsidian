@@ -1,0 +1,23 @@
+    <footer>
+        <hr>
+        <nav>
+            <section>
+                {% yield Logo %}
+            </section>
+            <ul>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/report">Report</a></li>
+                <li><a href="/privacy">Privacy</a></li>
+                <li><a href="/roadmap">Roadmap</a></li>
+                <li><a href="/extra">Extra</a></li>
+                {% if (Session::isLoggedIn()): %}
+                <li><a href="/settings">Settings</a></li>
+                {% else: %}
+                <li><a href="/login">Login</a></li>
+                {% endif; %}
+            </ul>
+        </nav>
+    </footer>
+    </main>
+</body>
+</html>

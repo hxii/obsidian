@@ -1,0 +1,21 @@
+{% include head.html %}
+
+<form action="" method="post">
+
+    <label for="password">New Password
+        <input type="password" name="password" id="password" required minlength="8">
+        <span>Longer than 8 characters. Show password? <input type="checkbox" name="showpass" id="showpass"></span>
+    </label>
+
+    <button type="submit">Reset Password</button>
+</form>
+
+<script>
+    const showpass = document.querySelector("#showpass");
+    const password = document.querySelector("#password");
+    showpass.addEventListener('change', e => {
+        password.type = (password.type === 'password') ? 'text' : 'password';
+    });
+</script>
+
+{% include foot.html %}

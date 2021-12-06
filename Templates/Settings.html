@@ -1,0 +1,76 @@
+{% include head.html %}
+
+<article>
+    {% include title.html %}
+    <form action="" method="post">
+        <fieldset>
+            <legend>Basic Information</legend>
+                <input type="text" name="username" id="username" value="{{ $user['handle'] }}" required disabled placeholder="Your username">
+                <span>Required. This is your username and your diary address.</span>
+
+                <input type="password" name="password" id="password" autocomplete="new-password" minlength="8" placeholder="Your password">
+                <span>Leave empty if you don't want to change it. Show password? <input type="checkbox" name="showpass" id="showpass"></span>
+
+                <input type="text" name="realname" id="realname" value="{{ $user['name'] ?? '' }}" placeholder="Display name">
+                <span>Optional. Will be shown instead of your username.</span>
+
+                <input type="email" name="email" id="email" value="{{ $user['email'] ?? '' }}" required placeholder="Your email">
+                <span>Required. We will never, EVER spam you.</span>
+            </label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Privacy</legend>
+            <label for="discoverable">
+                Make your profile discoverable?
+                <input type="checkbox" name="discoverable" id="discoverable" value="1" {{ ($user['discoverable'] ? 'checked' : '') }}>
+                <span>This will allow us to show your profile in "Latest Entries" and the random button.</span>
+            </label>
+        </fieldset>
+    
+        <fieldset>
+            <legend>Customization</legend>
+            <label for="meta-title">
+                Page Title
+                <input type="text" name="meta-title" id="meta-title" value="{{ Settings::get('metaTitle') ?? '' }}">
+                <span>Optional. Shows up on the homepage, title and RSS feeds. By default, your Name will be used.</span>
+            </label>
+
+            <label for="meta-description">
+                Meta Description
+                <textarea name="meta-description" id="meta-description" cols="30" rows="5">{{ Settings::get('metaDescription') ?? '' }}</textarea>
+                <span>Optional. Appears in the meta tags and RSS feed.</span>
+            </label>
+
+            <label for="home-header">
+                Homepage Header (intro)
+                <textarea name="home-header" id="home-header" cols="30" rows="10">{{ $settings['header'] ?? '' }}</textarea>
+                <span>Optional. Markdown formatting. This appears at the top of your homepage.</span>
+            </label>
+
+            {% if (Notes::isUserCapable($user['id'], 'customCSS')): %}
+            <label for="custom-css">
+                Custom CSS
+                <textarea name="custom-css" id="custom-css" cols="30" rows="10">{{ $settings['css'] ?? '' }}</textarea>
+            </label>
+            {% endif; %}
+        </fieldset>
+    
+        <section id="actions">
+            <button type="submit">Update</button>
+            <a href="/export">Export Entries</a>
+            <button class="red" name="delete" id="delete" style="margin-left: auto">Delete Account</button>
+        </section>
+    </form>
+    
+    <script>
+        const del = document.querySelector("#delete");
+        del.addEventListener('click', e => {
+            if (!confirm("This action is NOT reversible. Are you sure you want to delete your account?")) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</article>
+
+{% include foot.html %}

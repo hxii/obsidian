@@ -1,0 +1,17 @@
+{% include head.html %}
+
+<article>
+    {% include title.html %}
+    
+    <form action="/login" method="post">
+            <input type="text" name="username" id="username" autofocus required placeholder="Your username">
+    
+            <input type="password" name="password" id="password" required placeholder="Your password">
+    
+        <button type="submit">Login</button>
+    </form>
+
+    <section><a class="gray" href="/forgot-password">Forgot your password?</a> &middot; <a href="/register">Not registered yet?</a></section>
+</article>
+
+{% include foot.html %}

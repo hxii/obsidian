@@ -1,0 +1,22 @@
+<body>
+    <style>
+        body {
+            font: 17px/1.6 sans-serif;
+        }
+        .logo {
+            max-height: 64px;
+        }
+    </style>
+    <div class="header">
+        {{ BRAND_LOGO_ABS }}
+    </div>
+    <p>
+        <h1>Welcome to {{ BRAND_TEXT }}, {{ $handle }} 🎉</h1>
+        You can verify your email by clicking <a href="{{ ROOT_URL }}/verify/{{ $handle }}/{{ $token }}">this link</a> or by copy and pasting the following link into your browser:
+    </p>
+    <pre>
+        <code>
+            {{ BRAND_URL }}/verify/{{ $handle }}/{{ $token }}
+        </code>
+    </pre>
+</body>

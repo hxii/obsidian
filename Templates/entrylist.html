@@ -1,0 +1,30 @@
+{% include head.html %}
+
+{% yield Menu %}
+
+<article>
+    <section id="diary-header">{{ $header }}</section>
+
+    {% if(is_array($entries)): %}
+    <ul id="entries">
+        {% foreach ($entries as $entry => $entrydata): %}
+        {% if (1 === $entrydata['published'] || (Notes::$loggedInUser && Notes::$loggedInUser['handle'] === $user['handle'] && 0 === $entrydata['published'])): %}
+        {% $draft = (!$entrydata['published'])? '<span>Draft</span>' : '' %}
+        <li>
+            <a href="/~{{ $user['handle'] }}/{{ $entrydata['slug'] }}">{{ $entrydata['title'] }}{{ $draft }}</a><span>{{ date(DATE_FORMAT,$entrydata['created_at']) }}</span>
+        </li>
+        {% endif; %}
+        {% endforeach; %}
+    </ul>
+    {% endif; %}
+    {% $name = Notes::cc(Settings::get('metaTitle'), $user['name'], $user['handle']) %}
+    <aside>
+        Subscribe to
+        {{ $name }} by <a href="/~{{ $user['handle'] }}/rss">RSS</a>
+    </aside>
+
+</article>
+
+{% include custom-css.html %}
+
+{% include foot.html %}
