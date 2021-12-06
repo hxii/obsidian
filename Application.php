@@ -13,7 +13,7 @@ class Application {
     public function __construct(array $configuration)
     {
         Configuration::read($configuration);
-        Logger::enable($configuration['logging']['level'], $configuration['logging']['file']);
+        Logger::enable(Configuration::get('logging','level'), Configuration::get('logging','file'));
         self::$database = new \Obsidian\Core\Database();
         self::$session = new \Obsidian\Core\Session();
     }

@@ -73,7 +73,6 @@ class Template {
    * @return string
    */
   private static function includes(string $filename) : string {
-    Logger::debug("Loading template $filename");
     $data = @file_get_contents(Configuration::get('template','dir').'/'.$filename);
     if (!$data) {
       Logger::error("Unable to load template $filename");
@@ -176,7 +175,7 @@ class Template {
     $filepath   = Configuration::get('template','compiled') . '/' . str_replace('.html', '.php', $filename);
     $c_modified = @filemtime($filepath);
     $t_modified = filemtime(self::$activeTemplate);
-    if (defined('TEMPLATE_NOCACHE') || $t_modified > $c_modified || microtime(1) > ($c_modified + self::$cacheTime)) {
+    if (Configuration::get('template','nocache') || $t_modified > $c_modified || microtime(1) > ($c_modified + self::$cacheTime)) {
       Logger::debug("Saving compiled file $filepath");
       $write = @file_put_contents($filepath, $header . PHP_EOL . $content);
       if (!$write) {

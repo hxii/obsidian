@@ -27,7 +27,7 @@ class Auth {
 
     public static function isLoggedIn(string $key = 'signature') {
         if ($signature = Application::session()->$key) {
-            $check = $this->generateSignature();
+            $check = self::generateSignature();
             if ($signature === $check) {
                 return true;
             }
