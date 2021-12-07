@@ -5,6 +5,7 @@ namespace Obsidian;
 use Obsidian\Core\Configuration;
 use Obsidian\Core\Logger;
 use Obsidian\Core\Router;
+use Obsidian\Core\Session;
 
 class Application {
 
@@ -15,7 +16,7 @@ class Application {
         Configuration::read($configuration);
         Logger::enable(Configuration::get('logging','level'), Configuration::get('logging','file'));
         self::$database = new \Obsidian\Core\Database();
-        self::$session = new \Obsidian\Core\Session();
+        Session::start();
     }
 
     public static function database() {

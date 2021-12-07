@@ -54,7 +54,6 @@ class Database {
                 $types .= ('integer' === $type)? 'i' : 's';
             }
             mysqli_stmt_bind_param($stmt, $types, ...$vars);
-            var_dump($types);
             mysqli_stmt_execute($stmt);
             $rows = $stmt->get_result();
             if (is_bool($rows)) {

@@ -3,6 +3,7 @@
 namespace Obsidian\Core;
 
 use Obsidian\Application;
+use Helpers\Tools;
 
 class Auth {
 
@@ -26,7 +27,7 @@ class Auth {
     }
 
     public static function isLoggedIn(string $key = 'signature') {
-        if ($signature = Application::session()->$key) {
+        if ($signature = Session::get($key)) {
             $check = self::generateSignature();
             if ($signature === $check) {
                 return true;
@@ -47,6 +48,20 @@ class Auth {
             return $nonce === $check;
         }
         return false;
+    }
+
+    public static function token($token = null) {
+        $tokenName = Configuration::get('app', 'security') . '_csrf';
+        if (isset($token) && !is_null($token)) {
+            if (!Session::get($tokenName)) return false;
+            Tools::sanitize($token);
+            $check = (Session::get($tokenName) === $token);
+            Session::set($tokenName);
+            return $check;
+        } else {
+            $token = Tools::randomString(64);
+            return Session::set($tokenName, $token);
+        }
     }
 
 }

@@ -2,14 +2,14 @@
 
 namespace Controllers;
 
-use Obsidian\Application;
+use Obsidian\Core\Auth;
 use Obsidian\Core\Template;
 
 class Home {
 
     public static function view() {
-        $session = Application::session();
-        Template::view('index.html');
+        var_dump(Auth::isLoggedIn());
+        // Template::view('index.html');
     }
 
 }

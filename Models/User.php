@@ -11,7 +11,8 @@ class User extends Model {
         'name' => 'string',
         'updated_at' => '',
         'email' => '',
-        'username' => 'string,required'
+        'username' => 'string,required',
+        'password' => 'string'
     ];
 
     public function fetchByID(int $userId) {
