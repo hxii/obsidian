@@ -12,7 +12,9 @@ class Login {
     public static function process() {
         if (!Auth::isLoggedIn()) {
             $user = new \Models\User();
-            if($user->fetchByUsername(Router::currentRoute()->post['username'])) {
+            $username = Router::currentRoute()->post['username'];
+            \Helpers\Tools::sanitize($username, 'username');
+            if($user->fetchByUsername($username)) {
                 $log = Session::login($user->username, Router::currentRoute()->post['password'], $user->password);
             } else {
                 Error::show('User does not exist');

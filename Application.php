@@ -9,10 +9,13 @@ use Obsidian\Core\Session;
 
 class Application {
 
+    protected static $version = 'b20211207';
+
     protected static $database, $router, $logger, $session;
 
     public function __construct(array $configuration)
     {
+        define('OBSIDIAN_VERSION', self::$version);
         Configuration::read($configuration);
         Logger::enable(Configuration::get('logging','level'), Configuration::get('logging','file'));
         self::$database = new \Obsidian\Core\Database();
