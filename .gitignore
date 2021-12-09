@@ -3,13 +3,4 @@
 Compiled/
 Compiled/*
 Templates/
-Templates/*
-Controllers/
-Controllers/*
-Models/
-Models/*
-Helpers/
-Helpers/*
 log.txt
-config.php
-routes.php
