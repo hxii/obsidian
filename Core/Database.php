@@ -46,7 +46,7 @@ class Database {
         if ($this->connection) {
             $stmt = mysqli_prepare($this->connection, $query);
             if (!$stmt || is_bool($stmt)) {
-                die(Logger::error('Query failed! QUERY: ' . $query));
+                die(Logger::error('Query failed! QUERY: ' . $query . PHP_EOL . mysqli_error($this->connection)));
             }
             $types = '';
             foreach ($vars as $var) {

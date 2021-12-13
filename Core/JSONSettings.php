@@ -18,7 +18,9 @@ class JSONSettings {
                 Error::show(Logger::error('Failed to decode settings string: ' . json_last_error_msg()));
             }
         }
+        // Error::show(Logger::error('Failed to decode settings string: ' . json_last_error_msg()));
         $settings = array_merge($this->defaults, $data);
+        unset($this->defaults);
         foreach ($settings as $setting => $value) {
             $this->$setting = $value;
         }
@@ -38,6 +40,11 @@ class JSONSettings {
             return $this->$property;
         }
         return false;
+    }
+
+    public function __toString()
+    {
+        var_dump(get_object_vars($this));
     }
 
 }

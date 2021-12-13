@@ -66,6 +66,7 @@ class Session {
         } else {
             $_SESSION[$name] = $value;
         }
+        return $value;
     }
 
     public function __set($name, $value = '')
