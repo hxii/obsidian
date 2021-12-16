@@ -7,31 +7,28 @@ use Obsidian\Application;
 class Notifications {
 
     public static function create(string $level, string $message) {
-        // if (Application::session()->id()) {
-        //     Application::session()->notifications[] = [
-        //         'level' => $level,
-        //         'message' => $message,
-        //     ];
-        // }
         if (Session::id()) {
+            $notifications = Session::get('notifications') ?: Session::set('notifications', []);
             array_push(
-                Session::get('notifications'),
+                $notifications,
                 ['level' => $level, 'message' => $message]
             );
+            Session::set('notifications', $notifications);
         }
     }
 
     public static function show() {
         $html = '';
-        if (Session::id() && Session::get('notifications')) {
-            foreach (Session::get('notifications') as $k=>$notification) {
+        if (Session::id() && $notifications = Session::get('notifications')) {
+            foreach ($notifications as $k=>$notification) {
                 $html .= <<<EOL
                 <div class="notification {$notification['level']}">
                 {$notification['message']}
                 </div>
                 EOL;
-                unset(Session::get('notifications')[$k]);
+                unset($notifications[$k]);
             }
+            Session::set('notifications');
         }
         return $html;
     }

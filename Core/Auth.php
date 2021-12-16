@@ -54,7 +54,7 @@ class Auth {
         $tokenName = Configuration::get('app', 'security') . '_csrf';
         if (isset($token) && !is_null($token)) {
             if (!Session::get($tokenName)) return false;
-            Tools::sanitize($token);
+            $token = Tools::sanitize($token);
             $check = (Session::get($tokenName) === $token);
             Session::set($tokenName);
             return $check;

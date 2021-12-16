@@ -52,7 +52,6 @@ class Router {
           'get'     => $_GET,
           'route'   => $route,
           'referer' => $_SERVER['HTTP_REFERER'] ?? '',
-          // 'current' => ROOT_URL . $_SERVER['REQUEST_URI'],
           'current' => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
         ];
         if ($_SERVER['REQUEST_METHOD'] !== $route['method']) continue;
@@ -76,8 +75,41 @@ class Router {
     return http_response_code($status);
   }
 
+  /**
+   * Get current route object (post, get etc)
+   *
+   * @return object
+   */
   public static function currentRoute() {
     return (object) self::$current_query;
+  }
+
+  /**
+   * Get current POST as array, or a specific property from POST
+   *
+   * @param string|null $property
+   * @return void
+   */
+  public static function post(string $property = null) {
+    if (!is_null($property)) {
+      return (isset(self::$current_query['post'][$property]))? self::$current_query['post'][$property] : false;
+    } else {
+      return self::$current_query['post'];
+    }
+  }
+
+  /**
+   * Get current GET as array, or a specific property from GET
+   *
+   * @param string|null $property
+   * @return void
+   */
+  public static function get(string $property = null) {
+    if (!is_null($property)) {
+      return (isset(self::$current_query['get'][$property]))? self::$current_query['get'][$property] : false;
+    } else {
+      return self::$current_query['get'];
+    }
   }
 
   /**

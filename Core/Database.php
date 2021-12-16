@@ -56,11 +56,12 @@ class Database {
             mysqli_stmt_bind_param($stmt, $types, ...$vars);
             mysqli_stmt_execute($stmt);
             $rows = $stmt->get_result();
+            if (0 !== mysqli_stmt_errno($stmt)) {
+                $error = "SQL Error: ({$stmt->errno}) {$stmt->error}";
+                Logger::error($error);
+                return false;
+            }
             if (is_bool($rows)) {
-                if (0 !== mysqli_stmt_errno($stmt)) {
-                    Logger::error(sprintf("Error: %d.\n", $stmt->errno));
-                    return false;
-                }
                 return true;
             }
             $count = $rows->num_rows;

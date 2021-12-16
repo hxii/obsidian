@@ -13,3 +13,5 @@ Helpers/*
 log.txt
 config.php
 routes.php
+Pages/
+Pages/*

@@ -51,18 +51,54 @@ class Model {
     protected function update() {
         if (Application::database()) {
             $command = 'UPDATE'; // SQL COMMAND
-            echo '<pre>'.var_export($this->findPrimary(),1).'</pre>';
+            $primary = $this->findPrimary();
             $properties = array_keys($this->properties); // GET A LIST OF COLUMNS
-            $properties = implode(' = ?,', $properties) . ' = ?'; // PREPARE LIST AS STRING
-            foreach ($this->properties as $property => $value) {
-                // if (strpos('primary', $value)) continue;
-                $values[] = $this->$property;
+            if ($primary) {
+                // Make sure we're not setting primary column
+                unset($properties[array_search($primary, $properties)]);
+            }
+            $columns = implode(' = ?,', $properties) . ' = ?'; // PREPARE LIST AS STRING
+            foreach ($properties as $property) {
+                $values[] = $this->$property; // Array of property values
             }
             array_push($values, $this->id);
-            $query = "$command {$this->table} SET $properties WHERE `id` = ?";
+            $query = "$command {$this->table} SET $columns WHERE `id` = ?";
+            $result = Application::database()->query($query, ...$values);
+            if ($result) {
+                return $result;
+            }
+            Error::show('Failed to update: ' . $query);
+            return false;
+        }
+    }
+
+    protected function insert() {
+        if (Application::database()) {
+            $command = 'INSERT INTO';
+            $primary = $this->findPrimary();
+            $properties = array_keys($this->properties);
+            if ($primary) {
+                echo "PRIMARY ";
+                var_dump($primary);
+                unset($properties[array_search($primary, $properties)]);
+            }
+            $columns = implode(',', $properties);
+            $vals = '';
+            foreach ($properties as $property) {
+                $values[] = $this->$property;
+                $vals .= '?, ';
+            }
+            $vals = trim($vals, ', ');
+            $query = "$command {$this->table} ($columns) VALUES ($vals)";
             echo '<pre>'.var_export($query,1).'</pre>';
+            echo '<hr>';
             echo '<pre>'.var_export($values,1).'</pre>';
-            // $result = Application::database()->query($query, ...$values);
+            $result = Application::database()->query($query, ...$values);
+            if ($result) {
+                return $result;
+            }
+            Error::show('Failed to insert: ' . $query . PHP_EOL . Application::database()->getLast());
+            return false;
         }
     }
 
@@ -99,6 +135,13 @@ class Model {
         return false;
     }
 
+    /**
+     * Validate property value against defined setting, e.g. email => string
+     *
+     * @param string $property
+     * @param [type] $value
+     * @return boolean
+     */
     protected function validateProperty(string $property, $value): bool {
         $options = explode(',', $this->properties[$property]);
         foreach ($options as $option) {
@@ -116,10 +159,16 @@ class Model {
         return true;
     }
 
-    private function findPrimary() {
+    /**
+     * Find property containing the primary value e.g. id
+     *
+     * @param string $primary value to search for. 'primary' by default.
+     * @return void
+     */
+    private function findPrimary($primary = 'primary') {
         $keys = [];
         foreach ($this->properties as $key => $value) {
-            if (strpos($value, 'primary')) {
+            if (strpos($value, $primary) !== false) {
                 $keys[] = $key;
             }
         }
