@@ -8,6 +8,7 @@ use Obsidian\Core\Logger;
 class Database {
 
     protected $connection;
+    private $results;
 
     public function __construct()
     {
@@ -64,20 +65,23 @@ class Database {
             if (is_bool($rows)) {
                 return true;
             }
-            $count = $rows->num_rows;
-            if ($count > 1) {
-                $results = [];
-                while ($row = $rows->fetch_array(MYSQLI_ASSOC)) {
-                    $results[] = $row;
-                }
-                return $results;
-            } else {
-                return $rows->fetch_assoc();
+            $this->results = [];
+            while ($row = $rows->fetch_array(MYSQLI_ASSOC)) {
+                $this->results[] = $row;
             }
+            return $this;
         }
     }
 
-    public function esc(&$data) {
+    public function getList() {
+        return $this->results;
+    }
+
+    public function getFirst() {
+        return (is_array($this->results) && isset($this->results[0]))? $this->results[0] : false;
+    }
+
+    private function esc(&$data) {
         if (!$this->connection) {
             if(class_exists('Logger')) Logger::error('Database connection not available');
             die('Database connection not available');

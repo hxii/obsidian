@@ -17,15 +17,6 @@ class Configuration {
         }
     }
 
-    // public static function get(string $property) {
-    //     if (isset(self::$configuration[$property])) {
-    //         return self::$configuration[$property];
-    //     } else {
-    //         Logger::error("$property not found in configuration");
-    //         return false;
-    //     }
-    // }
-
     public static function get(...$properties) {
         $configuration = self::$configuration;
         foreach($properties as $property) {

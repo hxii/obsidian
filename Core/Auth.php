@@ -17,8 +17,8 @@ class Auth {
 
     public static function hashPassword(string $password, bool $hash = true) {
         if (strlen($password) < Configuration::get('security','min_pass_length')) return false;
-        $peppered = hash_hmac('sha256', $password, Configuration::get('security','pepper'));
-        return ($hash) ? password_hash($peppered, Configuration::get('security','algo')) : $peppered;
+        $peppered = hash_hmac('sha256', $password, Configuration::get('security','pepper') ?? '');
+        return ($hash) ? password_hash($peppered, Configuration::get('security','algo') ?? PASSWORD_DEFAULT) : $peppered;
     }
 
     public static function verifyPassword(string $password, string $hash): bool {

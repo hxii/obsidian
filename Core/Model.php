@@ -20,7 +20,7 @@ class Model {
     protected function fetch($query, ...$params) {
         // Check database connection
         if (Application::database()) {
-            $result = Application::database()->query($query, ...$params);
+            $result = Application::database()->query($query, ...$params)->getFirst();
             if ($result) {
                 $this->load($result);
                 return true;
@@ -78,8 +78,6 @@ class Model {
             $primary = $this->findPrimary();
             $properties = array_keys($this->properties);
             if ($primary) {
-                echo "PRIMARY ";
-                var_dump($primary);
                 unset($properties[array_search($primary, $properties)]);
             }
             $columns = implode(',', $properties);
@@ -90,14 +88,27 @@ class Model {
             }
             $vals = trim($vals, ', ');
             $query = "$command {$this->table} ($columns) VALUES ($vals)";
-            echo '<pre>'.var_export($query,1).'</pre>';
-            echo '<hr>';
-            echo '<pre>'.var_export($values,1).'</pre>';
             $result = Application::database()->query($query, ...$values);
             if ($result) {
                 return $result;
             }
             Error::show('Failed to insert: ' . $query . PHP_EOL . Application::database()->getLast());
+            return false;
+        }
+    }
+
+    protected function delete() {
+        if (Application::database()) {
+            $command = 'DELETE FROM';
+            $primary = $this->findPrimary();
+
+            $query = "$command {$this->table} WHERE {$primary} = ?";
+            $values[] = $this->$primary;
+            $result = Application::database()->query($query, ...$values);
+            if ($result) {
+                return $result;
+            }
+            Error::show('Failed to delete: ' . $query . PHP_EOL . Application::database()->getLast());
             return false;
         }
     }
@@ -186,7 +197,7 @@ class Model {
     }
 
     private function validateInteger($value) {
-        return is_int($value);
+        return is_int($value) || is_double($value) || is_numeric($value);
     }
 
     private function validateString($value) {
